@@ -109,7 +109,7 @@ def process_frame_for_stream(frame, frame_counter, last_knn_text, last_svm_text,
     knn_text = f"Latency: {latency_knn:.2f} ms\nPrediction: {emotion_knn}\nConfidence: N/A"
 
     start_time_svm = time.time()
-    hog_features = hog(cv2.resize(face, (64, 128)), orientations=9, pixels_per_cell=(8, 😎, cells_per_block=(2, 2), transform_sqrt=True, block_norm="L2-Hys")
+    hog_features = hog(cv2.resize(face, (64, 128)), orientations=9, pixels_per_cell=(8, 8), cells_per_block=(2, 2), transform_sqrt=True, block_norm="L2-Hys")
     emotion_svm = EMOTIONS[svm_model.predict(hog_features.reshape(1, -1))[0]]
     latency_svm = (time.time() - start_time_svm) * 1000
     svm_frame = draw_on_face(frame, coords, f"HOG+SVM: {emotion_svm}")
@@ -176,7 +176,7 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
     submit_btn.click(process_upload_image, inputs=upload_input, outputs=upload_outputs)
 
 # --- Main Execution Block ---
-if _name_ == "_main_":
+if __name__ == "__main__":
     if None in [cnn_model, face_cascade, knn_model, svm_model]:
         print("\nCould not start the application due to one or more models failing to load.")
         print("Please ensure all model files exist and the training script has been run.")
