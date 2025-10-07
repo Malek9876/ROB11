@@ -4,17 +4,17 @@ import os
 import time
 import gradio as gr
 from skimage.feature import local_binary_pattern, hog
-import joblib # <-- ADDED IMPORT
+import joblib 
 from tensorflow.keras.models import load_model
 
-# --- Performance Configuration ---
+# --- Configuration ---
 PROCESS_EVERY_N_FRAMES = 5
 
 # --- Model and Asset Loading ---
 # Load CNN Model
 model_path = 'fer2013_mini_XCEPTION.102-0.66.hdf5'
 if not os.path.exists(model_path):
-    print(f"Error: Model file not found at '{model_path}'")
+    print(f"Error: Pre-trained CNN model not found at '{model_path}'")
     cnn_model = None
 else:
     try:
@@ -24,7 +24,7 @@ else:
         print(f"Error loading CNN model: {e}")
         cnn_model = None
 
-# Load Haar Cascade
+# Load Haar Cascade for face detection
 try:
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
     print("Haar Cascade loaded successfully.")
@@ -32,7 +32,7 @@ except Exception as e:
     print(f"Error loading Haar Cascade: {e}")
     face_cascade = None
 
-# --- Load Trained Models (REPLACED DUMMY MODELS) ---
+# Load our trained models
 try:
     print("Loading trained LBP+KNN model from 'knn_model.joblib'...")
     knn_model = joblib.load('knn_model.joblib')
@@ -109,7 +109,7 @@ def process_frame_for_stream(frame, frame_counter, last_knn_text, last_svm_text,
     knn_text = f"Latency: {latency_knn:.2f} ms\nPrediction: {emotion_knn}\nConfidence: N/A"
 
     start_time_svm = time.time()
-    hog_features = hog(cv2.resize(face, (64, 128)), orientations=9, pixels_per_cell=(8, 8), cells_per_block=(2, 2), transform_sqrt=True, block_norm="L2-Hys")
+    hog_features = hog(cv2.resize(face, (64, 128)), orientations=9, pixels_per_cell=(8, 😎, cells_per_block=(2, 2), transform_sqrt=True, block_norm="L2-Hys")
     emotion_svm = EMOTIONS[svm_model.predict(hog_features.reshape(1, -1))[0]]
     latency_svm = (time.time() - start_time_svm) * 1000
     svm_frame = draw_on_face(frame, coords, f"HOG+SVM: {emotion_svm}")
@@ -175,10 +175,11 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
     upload_outputs = [knn_image_output, knn_text_output, svm_image_output, svm_text_output, cnn_image_output, cnn_text_output]
     submit_btn.click(process_upload_image, inputs=upload_input, outputs=upload_outputs)
 
-if __name__ == "__main__":
+# --- Main Execution Block ---
+if _name_ == "_main_":
     if None in [cnn_model, face_cascade, knn_model, svm_model]:
         print("\nCould not start the application due to one or more models failing to load.")
         print("Please ensure all model files exist and the training script has been run.")
     else:
-        print("\nLaunching the Blocks Interface...")
+        print("\nLaunching the Gradio Interface...")
         demo.launch(share=True)
