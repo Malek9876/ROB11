@@ -1,0 +1,4 @@
+Model,Correct Predictions,Total Images,Accuracy (%),Mean Latency (ms)
+LBP+KNN,380,1741,31.83,8.67
+HOG+SVM,723,1741,51.53,3.8
+Mini-Xception (CNN),978,1741,66.17,62.8
