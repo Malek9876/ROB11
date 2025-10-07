@@ -176,11 +176,7 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
     submit_btn.click(process_upload_image, inputs=upload_input, outputs=upload_outputs)
 
 # --- Main Execution Block ---
-<<<<<<< HEAD
 if _name_ == "_main_":
-=======
-if __name__ == "__main__":
->>>>>>> 3bcc4c619ce520c185adce959214b356aee1dad3
     if None in [cnn_model, face_cascade, knn_model, svm_model]:
         print("\nCould not start the application due to one or more models failing to load.")
         print("Please ensure all model files exist and the training script has been run.")
