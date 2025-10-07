@@ -9,6 +9,18 @@ A Python application that uses a web interface to detect facial expressions in r
 -   Side-by-side comparison of three different ML models.
 -   Displays latency and prediction for each model.
 
+## Model Performance
+
+The models were evaluated on the FER-2013 test set. The results are as follows:
+
+| Model                   | Accuracy (%) | Mean Latency (ms) |
+| ----------------------- | :----------: | :---------------: |
+| LBP + KNN               |    31.83%    |       8.67        |
+| HOG + SVM               |    51.53%    |       3.80        |
+| **Mini-Xception (CNN)** |  **66.17%**  |      62.80        |
+
+The Mini-Xception (CNN) model provides the highest accuracy, while the classic HOG+SVM model is the fastest.
+
 ## Setup and Usage
 
 Follow these steps to get the project running.
@@ -58,7 +70,6 @@ This will create two new files: `knn_model.joblib` and `svm_model.joblib`.
 Once the models are trained, you can launch the web interface:
 
 ```bash
-python emotion_detector.py
-```
+python emotion_detector.py```
 
 Open the local URL provided in the terminal (e.g., `http://127.0.0.1:7860`) in your web browser to use the application.
